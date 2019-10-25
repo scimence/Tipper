@@ -46,12 +46,16 @@ public class TipLogic
 			
 			for (String Id : IdList)
 			{
-				IdDataSave(Id);
-				IdCheckTip(context, Id);
+				try
+				{
+					IdDataSave(Id);
+					IdCheckTip(context, Id);
+				}
+				catch(Exception ex){}
 			}
 		}
-		else BaseService.IntervalMillis = 60000 * 3;
-		if(TimeTool.nowInTimeRegion("09:27:00", "09:30:00")) BaseService.IntervalMillis = 15000;
+//		else BaseService.IntervalMillis = 60000 * 3;
+//		if(TimeTool.nowInTimeRegion("09:27:00", "09:30:00")) BaseService.IntervalMillis = 15000;
 	}
 	
 	static int pre = 10000;

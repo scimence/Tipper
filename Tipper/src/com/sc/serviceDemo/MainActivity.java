@@ -76,7 +76,7 @@ public class MainActivity extends ActivityComponent
 		// this.setContextMenu_Res(Button("btnClearRecord"), "shield_option");
 
 		String ConfigUrl = "https://scimence.gitee.io/Tipper/update.txt";	// 服务端最新版本配置信息
-		String curVersion = "201910251111";									// 当前版本信息
+		String curVersion = "201910251517";									// 当前版本信息
 		AppUpdate.CheckUpdate(this, ConfigUrl, curVersion);					// 检测版本自动更新
 	}
 
