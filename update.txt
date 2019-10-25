@@ -1,5 +1,5 @@
-
+ï»¿
 version(201910251111)
 url(https://scimence.gitee.io/Tipper/Tipper.apk)
-msg(TipperÓÉscimenceÌá¹©)
+msg(Tipperç”±scimenceæä¾›)
 isTestAd(false)
