@@ -55,6 +55,19 @@
             android:exported="true" >
         </service>
 
+        
+        <!-- 添加静态广播接收，监听开启、锁屏、解屏 事件（以启动电话监听CallService） -->
+        <receiver
+            android:name="com.sc.broad.BroadCast_Start"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.SCREEN_OFF" />
+                <action android:name="android.intent.action.SCREEN_ON" />
+                
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
