@@ -1,0 +1,5 @@
+
+version(201910251111)
+url(https://scimence.gitee.io/Tipper/Tipper.apk)
+msg(Tipper”…scimenceÃ·π©)
+isTestAd(false)
