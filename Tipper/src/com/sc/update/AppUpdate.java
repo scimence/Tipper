@@ -106,6 +106,5 @@ public class AppUpdate
 		        context.startActivity(intent);
 			}
 		});
-		
 	}
 }

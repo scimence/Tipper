@@ -1,12 +1,14 @@
 ﻿
 package com.sc.serviceDemo;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -76,9 +78,10 @@ public class MainActivity extends ActivityComponent
 		// this.setContextMenu_Res(Button("btnClearRecord"), "shield_option");
 
 		String ConfigUrl = "https://scimence.gitee.io/Tipper/update.txt";	// 服务端最新版本配置信息
-		String curVersion = "201910251517";									// 当前版本信息
+		String curVersion = "201910291020";									// 当前版本信息
 		AppUpdate.CheckUpdate(this, ConfigUrl, curVersion);					// 检测版本自动更新
 	}
+
 
 	@Override
 	public void Click(String viewId)
