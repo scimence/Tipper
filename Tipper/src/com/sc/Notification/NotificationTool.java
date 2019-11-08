@@ -7,8 +7,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import com.sc.serviceDemo.MainActivity;
-
 
 public class NotificationTool
 {
@@ -23,8 +21,28 @@ public class NotificationTool
 		return nm;
 	}
 	
+
 	/** 显示通知栏消息, targIntent为点击消息时，跳转的Intent */
 	public static void ShowNotification(Context context, int notification_id, int icon, String tickertext, String title, String content, Intent targIntent/*, String FilePath*/)
+	{
+		if (notification_id == -1) notification_id = NotificationTool.notification_id;
+		
+		PendingIntent pI = PendingIntent.getActivity(context, 0, targIntent, PendingIntent.FLAG_UPDATE_CURRENT/*, targIntent.getExtras()*/);		// 点击通知后的动作，转回main 这个Acticity
+		
+		Notification notification = new Notification.Builder(context)
+        .setContentTitle(title)
+        .setContentText(content)
+        .setSmallIcon(icon)
+//        .setLargeIcon(icon)
+        .setContentIntent(pI)
+        .build();
+		
+		NotificationManager nm = getNotificationManager(context);
+		nm.notify(notification_id, notification);						// 显示通知消息
+	}
+	
+	/** 显示通知栏消息, targIntent为点击消息时，跳转的Intent */
+	public static void ShowNotification0(Context context, int notification_id, int icon, String tickertext, String title, String content, Intent targIntent/*, String FilePath*/)
 	{
 		if (notification_id == -1) notification_id = NotificationTool.notification_id;
 		
