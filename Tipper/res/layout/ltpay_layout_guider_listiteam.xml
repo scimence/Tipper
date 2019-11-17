@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:id="@+id/ltpay_layout_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="#ffffff"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp" >
+
+        
+        <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="34dp"
+	        android:layout_below="@id/ltpay_view1"
+	        android:layout_marginBottom="0dp"
+	        android:layout_marginLeft="0dp"
+	        android:layout_marginRight="0dp"
+	        android:layout_marginTop="0dp"
+	        android:background="@drawable/ltpay_drawable_bg_white" >
+
+	        <RelativeLayout
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content" 
+	            android:layout_gravity="center_horizontal"
+	            android:layout_weight="1">
+	            
+	            <TextView
+		            android:id="@+id/ltpay_text_name"
+		            android:layout_width="match_parent"
+		            android:layout_height="18dp"
+		            
+			        android:layout_marginLeft="0dp"
+			        android:layout_marginRight="0dp"
+			        android:layout_marginTop="0dp"
+		            
+		            android:gravity="center"
+		            android:text="显示名称"
+		            android:textColor="#000000"
+		            android:textSize="15sp" />
+	            
+	            <TextView
+		            android:id="@+id/ltpay_text_code"
+		            android:layout_width="match_parent"
+		            android:layout_height="16dp"
+		            android:layout_below="@id/ltpay_text_name"
+		            
+			        android:layout_marginLeft="0dp"
+			        android:layout_marginRight="0dp"
+			        android:layout_marginTop="0dp"
+			        android:layout_marginBottom="0dp"
+		            
+		            android:gravity="center"
+		            android:text="000000"
+		            android:textColor="#969696"
+		            android:textSize="12sp" />
+	            
+	        </RelativeLayout>
+        
+	        
+	        <TextView
+	            android:id="@+id/ltpay_text_avg"
+	            android:layout_width="0dp"
+	            android:layout_height="34dp"
+	            android:layout_weight="1"
+	            android:gravity="center"
+	            android:text="0.00"
+	            android:textColor="#000000"
+	            android:textSize="15sp" />
+	        
+	        <TextView
+	            android:id="@+id/ltpay_text_real"
+	            android:layout_width="0dp"
+	            android:layout_height="34dp"
+	            android:layout_weight="1"
+	            android:gravity="center"
+	            android:text="0.00"
+	            android:textColor="#000000"
+	            android:textSize="15sp" />
+	
+	        <TextView
+	            android:id="@+id/ltpay_text_rate"
+	            android:layout_width="0dp"
+	            android:layout_height="34dp"
+	            android:layout_weight="1"
+	            android:gravity="center"
+	            android:text="0.00%"
+	            android:textColor="#969696"
+            	android:textStyle="bold"
+	            android:textSize="15sp" />
+	    </LinearLayout>
+    
+    </RelativeLayout>
+
+</RelativeLayout>

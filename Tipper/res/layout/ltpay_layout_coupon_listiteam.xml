@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:id="@+id/ltpay_layout_bg"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="#ff708a"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            android:id="@+id/ltpay_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="3dp"
+            android:text="现金抵用券"
+            android:textColor="#ffffff"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/ltpay_text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="选取"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <View
+            android:id="@+id/ltpay_view_sp"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_toStartOf="@id/ltpay_text3"
+            android:background="@color/ltpay_color_gray" />
+        
+        
+        <TextView
+            android:id="@+id/ltpay_text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/ltpay_text1"
+            android:layout_toLeftOf="@id/ltpay_view_sp"
+            android:gravity="center"
+            android:text="￥ 100"
+            android:textStyle="bold"
+            android:textColor="#faec6b"
+            android:textSize="30sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

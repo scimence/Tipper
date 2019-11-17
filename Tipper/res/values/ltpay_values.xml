@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ltpay_loading_txt">正在加载...</string>
+    
+    <color name="ltpay_color_black">#000000</color>
+    <color name="ltpay_color_b2">#8e96a2</color>
+    <color name="ltpay_color_c2">#c2c2c2</color>
+    <color name="ltpay_color_red">#ff00</color>
+    
+    <color name="ltpay_color_gray">#b9b9b9</color>
+    <color name="ltpay_color_FFFFFF">#ffffff</color>
+    <color name="ltpay_color_FAFAFC">#fafafc</color>
+    <color name="ltpay_color_b9b9b9">#b9b9b9</color>
+    
+    <color name="ltpay_color_5677fc">#5677fc</color>
+    <color name="ltpay_color_ececec">#ececec</color>
+    
+    <dimen name="ltpay_text_size_14">14sp</dimen>
+    <dimen name="ltpay_margin_10">10dp</dimen>
+    
+    
+    <string-array name="ltpay_phone_number_type">
+        <item>中国 +86</item>
+        <item>美国 +1</item>
+    </string-array>
+    
+</resources>
