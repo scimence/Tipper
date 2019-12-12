@@ -27,7 +27,11 @@ public class ListIteamData
 		this.real = Tool.ToFloat(real);
 		
 		if(this.real == 0) this.rate = 0;
-		else this.rate = (this.real - this.avg) / this.avg * 100;
+		else
+		{
+			if(this.real >= this.avg) this.rate = (this.real - this.avg) / this.avg * 100;
+			else this.rate = -(this.avg - this.real) / this.real * 100;
+		}
 	}
 	
 	/** 从字符串，创建列表数据项 */
@@ -40,7 +44,11 @@ public class ListIteamData
 		if(A.length >= 4) real = Tool.ToFloat(A[3]);
 		
 		if(this.real == 0) this.rate = 0;
-		else this.rate = (this.real - this.avg) / this.avg * 100;
+		else
+		{
+			if(this.real >= this.avg) this.rate = (this.real - this.avg) / this.avg * 100;
+			else this.rate = -(this.avg - this.real) / this.real * 100;
+		}
 	}
 	
 	/** 数据转化为字符串形式 */

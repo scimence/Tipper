@@ -62,7 +62,11 @@ public class ListPage extends ActivityComponent
 		Set = new Preference(this, SetName);
 		SetPageButtonColor(pageIndex);
 		
-		codeList.clear();	// 清空代码集合
+		synchronized(codeList)
+		{
+			codeList.clear();	// 清空代码集合
+		}
+		
 		LinearLayout("ltpay_content").removeAllViews();	// 移除所有
 		LoadCodeList();
 		
@@ -95,10 +99,10 @@ public class ListPage extends ActivityComponent
 		{
 			Show(this, MainActivity.class);
 		}
-		else if(viewId.equals("ltpay_text_watting") || viewId.equals("ltpay_text_holding"))
-		{
-			
-		}
+//		else if(viewId.equals("ltpay_text_watting") || viewId.equals("ltpay_text_holding"))
+//		{
+//			
+//		}
 		else if(viewId.equals("ltpay_text_add_new"))
 		{
 			InputBox.Show(this, "请输入股票代码");
@@ -161,56 +165,65 @@ public class ListPage extends ActivityComponent
 	/** 添加指定Id对应的数据项 */
 	private void AddIteam(String Id)
 	{
-		PauseResh = true;
-		
+//		PauseResh = true;
+			
 		if(Id.trim().equals("")) return;
 		
-		if(!codeList.contains(Id))
+		synchronized(codeList)
 		{
-			Set.put(Id, Id);
-			
-			codeList = ListIteamData.getCodeList(datas);				// 修改载入的列表顺序
-			if(!codeList.contains(Id)) codeList.add(Id);
-			String data = Tool.ToSingleString(codeList);
-			LocalDB.saveData("codeList" + pageIndex, data);				// 保存代码数据信息
+			if(!codeList.contains(Id))
+			{
+				Set.put(Id, Id);
+				
+				codeList = ListIteamData.getCodeList(datas);				// 修改载入的列表顺序
+				if(!codeList.contains(Id)) codeList.add(Id);
+				String data = Tool.ToSingleString(codeList);
+				LocalDB.saveData("codeList" + pageIndex, data);				// 保存代码数据信息
+			}
 		}
 		
 		LoadWebData();
 		RefreshLogic();
 		Toast.makeText(this, Id + "已添加", Toast.LENGTH_SHORT).show();
 		
-		PauseResh = false;
+//		PauseResh = false;
 	}
 	
 	/** 删除指定Id对应的数据项 */
 	private void RemoveIteam(String Id)
 	{
-		PauseResh = true;
+//		PauseResh = true;
+		synchronized(codeList)
+		{
+			Set.remove(Id);
 		
-		Set.remove(Id);
-		
-		codeList = ListIteamData.getCodeList(datas);				// 修改载入的列表顺序
-		if(codeList.contains(Id)) codeList.remove(Id);
-		String data = Tool.ToSingleString(codeList);
-		LocalDB.saveData("codeList" + pageIndex, data);				// 保存代码数据信息
+			codeList = ListIteamData.getCodeList(datas);				// 修改载入的列表顺序
+			if(codeList.contains(Id)) codeList.remove(Id);
+			String data = Tool.ToSingleString(codeList);
+			LocalDB.saveData("codeList" + pageIndex, data);				// 保存代码数据信息
+		}
 		
 		RefreshLogic();
 		
 		Toast.makeText(ListPage.this, Id + "已删除", Toast.LENGTH_SHORT).show();
 		
-		PauseResh = false;
+//		PauseResh = false;
 	}
 	
 	/** 对列表信息进行排序 */
 	private void SortListView(int index)
 	{
-		if(SortIndex != index) SortIndex = index;
-		else Resort = !Resort;
+		synchronized(codeList)
+		{
+			if(SortIndex != index) SortIndex = index;
+			else Resort = !Resort;
+			
+			if(Resort) datas = ListIteamData.ReSort(datas, index);		// 对数据进行逆排序
+			else datas = ListIteamData.Sort(datas, index);				// 对数据进行排序
+			
+			codeList = ListIteamData.getCodeList(datas);				// 修改载入的列表顺序
+		}
 		
-		if(Resort) datas = ListIteamData.ReSort(datas, index);		// 对数据进行逆排序
-		else datas = ListIteamData.Sort(datas, index);				// 对数据进行排序
-		
-		codeList = ListIteamData.getCodeList(datas);				// 修改载入的列表顺序
 		SaveCodeList();
 		
 		LoadAllDatas();
@@ -220,17 +233,23 @@ public class ListPage extends ActivityComponent
 	/** 保存代码数据信息 */
 	private void SaveCodeList()
 	{
-		codeList = ListIteamData.getCodeList(datas);				// 修改载入的列表顺序
-		String data = Tool.ToSingleString(codeList);
-		
-		LocalDB.saveData("codeList" + pageIndex, data);				// 保存代码数据信息
+		synchronized(codeList)
+		{
+			codeList = ListIteamData.getCodeList(datas);				// 修改载入的列表顺序
+			String data = Tool.ToSingleString(codeList);
+			
+			LocalDB.saveData("codeList" + pageIndex, data);				// 保存代码数据信息
+		}
 	}
 	
 	/** 载入代码数据信息 */
 	private void LoadCodeList()
 	{
-		String data = LocalDB.readData("codeList" + pageIndex);				// 保存代码数据信息
-		codeList = Tool.ToStringArrayList(data);
+		synchronized(codeList)
+		{
+			String data = LocalDB.readData("codeList" + pageIndex);				// 保存代码数据信息
+			codeList = Tool.ToStringArrayList(data);
+		}
 	}
 	
 	CallBackF ListIteamClickCall = new CallBackF()
@@ -253,21 +272,24 @@ public class ListPage extends ActivityComponent
 	/** 更新列表显示信息 */
 	public void ShowList()
 	{
-		if(dataList == null || dataList.size() == 0) return;
-		datas = ListIteamData.ToArray(dataList); 	// 从数据解析列表项数据
-		
-		if(datas_pre == null || !ListIteamData.IsEqual(datas, datas_pre))	// 当数据有变动时，更新显示
+		synchronized(dataList)
 		{
-			datas_pre = datas;
+			if(dataList == null || dataList.size() == 0) return;
+			datas = ListIteamData.ToArray(dataList); 	// 从数据解析列表项数据
 			
-			ListAdapter adapter = new ListAdapter(ListPage.this, "ltpay_layout_guider_listiteam", datas, ListIteamClickCall);
-			
-	//		View addNew = TextView("ltpay_text_add_new");	// 获取添加按钮
-			
-			LinearLayout content = LinearLayout("ltpay_content");		// 获取页面的LinerLayout作为显示列表的ViewGroup
-			adapter.ShowListViewIn(content);	// 显示列表
-			
-	//		content.addView(addNew);						// 添加按钮添加至末尾处
+			if(datas_pre == null || !ListIteamData.IsEqual(datas, datas_pre))	// 当数据有变动时，更新显示
+			{
+				datas_pre = datas;
+				
+				ListAdapter adapter = new ListAdapter(ListPage.this, "ltpay_layout_guider_listiteam", datas, ListIteamClickCall);
+				
+		//		View addNew = TextView("ltpay_text_add_new");	// 获取添加按钮
+				
+				LinearLayout content = LinearLayout("ltpay_content");		// 获取页面的LinerLayout作为显示列表的ViewGroup
+				adapter.ShowListViewIn(content);	// 显示列表
+				
+		//		content.addView(addNew);						// 添加按钮添加至末尾处
+			}
 		}
 	}
 	
@@ -283,7 +305,7 @@ public class ListPage extends ActivityComponent
 			@Override
 			public void Function()
 			{
-				if(!PauseResh)
+//				if(!PauseResh)
 				{
 					LoadWebData();
 					
@@ -314,32 +336,35 @@ public class ListPage extends ActivityComponent
 	/** 载入已保存的代码信息 */
 	private List<String> loadAllCode()
 	{
-		List<String> keys = Set.Keys();
-		if(codeList.size() != keys.size())
+		synchronized(codeList)
 		{
-			// 移除配置中不含有的code值
-			List<String> codeListRemove = new ArrayList<String>();
-			for(String code : codeList)
+			List<String> keys = Set.Keys();
+			if(codeList.size() != keys.size())
 			{
-				if(!keys.contains(code)) codeListRemove.add(code);	// 记录所有待移除
-			}
-			for(String code : codeListRemove)
-			{
-				codeList.remove(code);		// 执行移除
-			}
-			
-			
-			// 从配置中添加编码code值
-			for (String key : keys)
-			{
-				if(!codeList.contains(key))
+				// 移除配置中不含有的code值
+				List<String> codeListRemove = new ArrayList<String>();
+				for(String code : codeList)
 				{
-					codeList.add(key);
+					if(!keys.contains(code)) codeListRemove.add(code);	// 记录所有待移除
+				}
+				for(String code : codeListRemove)
+				{
+					codeList.remove(code);		// 执行移除
+				}
+				
+				
+				// 从配置中添加编码code值
+				for (String key : keys)
+				{
+					if(!codeList.contains(key))
+					{
+						codeList.add(key);
+					}
 				}
 			}
+			
+			return codeList;
 		}
-		
-		return codeList;
 	}
 	
 	List<String> dataList = new ArrayList<String>();	// 数据信息
@@ -347,36 +372,45 @@ public class ListPage extends ActivityComponent
 	/** 载入已保存的代码数据 */
 	private List<String> LoadAllDatas()
 	{
-		dataList.clear();
-		for (String key : codeList)
+		synchronized(dataList)
 		{
-			String value = Set.get(key);
-			dataList.add(value);
+			dataList.clear();
+			synchronized(codeList)
+			{
+				for (String key : codeList)
+				{
+					String value = Set.get(key);
+					dataList.add(value);
+				}
+			}
+			
+			return dataList;
 		}
-		
-		return dataList;
 	}
 	
 	/** 载入载入网络数据信息 */
 	private void LoadWebData()
 	{
-		for(String Id : codeList)
+		synchronized(codeList)
 		{
-			try
+			for(String Id : codeList)
 			{
-				String real = Tool.getRealValue(Id).trim();
-				String[] A = Tool.getAvgData(Id);	
-				if(A.length > 1)
+				try
 				{
-					if(real.equals("") && A.length > 2)  real = A[2];	// 若未查询到实时数据，则使用前一天的收盘值
-					
-					ListIteamData iteam = new ListIteamData(Id, A[0], A[1], real);
-					Set.put(Id, iteam.ToString());
+					String real = Tool.getRealValue(Id).trim();
+					String[] A = Tool.getAvgData(Id);	
+					if(A.length > 1)
+					{
+						if(real.equals("") && A.length > 2)  real = A[2];	// 若未查询到实时数据，则使用前一天的收盘值
+						
+						ListIteamData iteam = new ListIteamData(Id, A[0], A[1], real);
+						Set.put(Id, iteam.ToString());
+					}
 				}
-			}
-			catch(Exception ex)
-			{
-				ex.printStackTrace();
+				catch(Exception ex)
+				{
+					ex.printStackTrace();
+				}
 			}
 		}
 	}

@@ -37,6 +37,8 @@ public class NotificationTool
         .setContentIntent(pI)
         .build();
 		
+		notification.defaults = Notification.DEFAULT_VIBRATE;
+		
 		NotificationManager nm = getNotificationManager(context);
 		nm.notify(notification_id, notification);						// 显示通知消息
 	}

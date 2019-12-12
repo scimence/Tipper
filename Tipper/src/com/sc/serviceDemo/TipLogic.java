@@ -102,16 +102,16 @@ public class TipLogic
 			float vlaueNum = values.get(analyse.Index());
 //			String name = names.get(analyse.Index());
 			
-			float avg = analyse.Avg.get(analyse.Index());
+//			float avg = analyse.Avg.get(analyse.Index());
 			
 			float endValue = 0;
 			if(endDic.containsKey(Id)) endValue = endDic.get(Id);
 			String Append = (endValue==0) ? "" : ("(" + Tool.GetRate(vlaueNum, endValue) + ")");
 			
-			String msg = "出现最" + (isMin ? "小" : "大") + "值:" + vlaueNum + Append + ",  均值 " + Tool.F2(avg);
+			String msg = "出现最" + (isMin ? "小" : "大") + "值:" + vlaueNum + Append /*+ ",  均值 " + Tool.F2(avg)*/;
 			if (!tipLog.fileData.contains(msg))
 			{
-				ShowNotification(context, Id + Append, msg, tipLog.filePath);
+				ShowNotification(Id, context, Id + Append, msg, tipLog.filePath);
 				tipLog.SaveValue(msg);
 			}
 		}
@@ -120,7 +120,7 @@ public class TipLogic
 	}
 	
 	/** 显示通知栏消息 */
-	private static void ShowNotification(Context context, String tittle, String content, String FilePath)
+	private static void ShowNotification(String Id, Context context, String tittle, String content, String FilePath)
 	{
 		String drawableName = "ic_launcher";
 		int icon = ActivityComponent.getId(context, drawableName, "drawable");
@@ -130,7 +130,13 @@ public class TipLogic
 		intent.putExtra("FilePath", FilePath);
 		intent.setPackage(context.getPackageName());	// 用当前应用中的ShowFile打开
 		
-		NotificationTool.ShowNotification(context, -1, icon, "图标边的文字", tittle, content, intent);
+		int notification_id = -1;
+		try
+		{
+			notification_id = Integer.parseInt(Id);
+		}catch(Exception ex){}
+		
+		NotificationTool.ShowNotification(context, notification_id, icon, "图标边的文字", tittle, content, intent);
 	}
 	
 	/** 显示提示信息 */

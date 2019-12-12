@@ -117,7 +117,7 @@ public class Trend
 			Trend lastTrend = trends.get(trends.size()-1);
 			Trend preLast = trends.get(trends.size()-2);
 			
-			if(preLast.isUp && !lastTrend.isUp && lastTrend.values.size() >= 2)
+			if(preLast.isUp && !lastTrend.isUp && lastTrend.values.size() >= 3)
 			{
 				float trendsMax = getMax(trends);	// 获取最大值
 				if(preLast.Max() >= trendsMax) return true;
@@ -135,7 +135,7 @@ public class Trend
 			Trend lastTrend = trends.get(trends.size()-1);
 			Trend preLast = trends.get(trends.size()-2);
 			
-			if(!preLast.isUp && lastTrend.isUp && lastTrend.values.size() >= 2)
+			if(!preLast.isUp && lastTrend.isUp && lastTrend.values.size() >= 3)
 			{
 				float trendsMin = getMin(trends);	// 获取最小值
 				if(preLast.Min() <= trendsMin) return true;
