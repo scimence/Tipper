@@ -58,7 +58,7 @@ public class TipLogic
 	}
 	
 	static int pre = 10000;
-	static Map<String, Float> endDic = new HashMap<String, Float>();
+	static Map<String, Float> endDic = new HashMap<String, Float>();	// 前一日收盘价
 	
 	/** Id对应的数据获取与保存逻辑 */
 	private static void IdDataSave(String Id)
@@ -84,6 +84,8 @@ public class TipLogic
 		tipData.SaveValue(nowValue);
 	}
 	
+	static Map<String, Float> PreTipDic = new HashMap<String, Float>();	// 记录前一次提示时，记录的市价值
+	
 	/** 从Id对应的数据进行检测与提示 */
 	private static void IdCheckTip(Context context, String Id)
 	{
@@ -101,18 +103,36 @@ public class TipLogic
 			
 			float vlaueNum = values.get(analyse.Index());
 //			String name = names.get(analyse.Index());
+			float avg = analyse.Avg.get(analyse.Index());
 			
-//			float avg = analyse.Avg.get(analyse.Index());
-			
-			float endValue = 0;
+			// 获取前一日收盘价
+			float endValue = vlaueNum;
 			if(endDic.containsKey(Id)) endValue = endDic.get(Id);
-			String Append = (endValue==0) ? "" : ("(" + Tool.GetRate(vlaueNum, endValue) + ")");
 			
-			String msg = "出现最" + (isMin ? "小" : "大") + "值:" + vlaueNum + Append /*+ ",  均值 " + Tool.F2(avg)*/;
-			if (!tipLog.fileData.contains(msg))
+			// 获取前一次提示值
+			float preValue = endValue;
+			if(PreTipDic.containsKey(Id)) preValue = PreTipDic.get(Id);
+			else PreTipDic.put(Id, preValue);	// 若无值，则使用收盘价
+			
+			// 当变动幅度值接近1个点以上时，才进行一次提示
+			float changeRate = Tool.GetRateF(vlaueNum, preValue);
+			if(Math.abs(changeRate) > 0.94f)
 			{
-				ShowNotification(Id, context, Id + Append, msg, tipLog.filePath);
-				tipLog.SaveValue(msg);
+				PreTipDic.put(Id, vlaueNum);	// 记录当前提示价
+				
+				// 获取基金名称
+				String Name = "";
+				String[] A = Tool.getAvgData(Id);	
+				if(A.length > 1) Name = A[0];
+				
+				// 进行信息提示
+				String Append = (endValue==0) ? "" : (" (" + Tool.GetRate(vlaueNum, endValue) + ")");
+				String msg = "出现最" + (isMin ? "小" : "大") + "值:" + vlaueNum + Append + ",  均值 " + Tool.F2(avg);
+				if (!tipLog.fileData.contains(msg))
+				{
+					ShowNotification(Id, context, Id + " " + Name, msg, tipLog.filePath);
+					tipLog.SaveValue(msg);
+				}
 			}
 		}
 		

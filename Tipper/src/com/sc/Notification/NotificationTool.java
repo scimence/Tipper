@@ -37,7 +37,8 @@ public class NotificationTool
         .setContentIntent(pI)
         .build();
 		
-		notification.defaults = Notification.DEFAULT_VIBRATE;
+		notification.defaults = Notification.DEFAULT_VIBRATE;	// 震动
+		notification.flags = Notification.FLAG_AUTO_CANCEL;		// 点击后自动取消
 		
 		NotificationManager nm = getNotificationManager(context);
 		nm.notify(notification_id, notification);						// 显示通知消息

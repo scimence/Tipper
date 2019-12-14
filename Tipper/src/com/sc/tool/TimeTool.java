@@ -75,6 +75,6 @@ public class TimeTool
 	/** 判断是否为交易时间 */
 	public static boolean IsTradeTime()
 	{
-		return (!isWeekend() && (nowInTimeRegion("09:30:00", "11:30:00") || nowInTimeRegion("13:00:00", "15:00:00")));
+		return (!isWeekend() && (nowInTimeRegion("09:24:45", "11:31:00") || nowInTimeRegion("12:59:45", "15:01:00")));
 	}
 }

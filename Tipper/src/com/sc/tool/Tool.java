@@ -25,6 +25,13 @@ public class Tool
 	}
 	
 	/** 获取变动比例 */
+	public static float GetRateF(float num, float base)
+	{
+		float rate = (num-base) / base * 100;
+		return rate;
+	}
+	
+	/** 获取变动比例 */
 	public static String GetRate(float num, float base)
 	{
 		float rate = (num-base) / base * 100;
