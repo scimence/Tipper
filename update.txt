@@ -1,5 +1,5 @@
 ﻿
-version(202002231955)
+version(202002252110)
 url(https://scimence.gitee.io/Tipper/Tipper.apk)
 msg(Tipper由scimence提供)
 isTestAd(false)
