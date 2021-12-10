@@ -6,12 +6,12 @@
 
 
 股价指南针，软件下载：
-https://scimence.gitee.io/Tipper/Tipper.apk
+http://scimence.cn/soft/Tipper/Tipper.apk
 
 
 软件版权所有scimence,您可以免费下载，使用。（scimence@163.com)
 
 扫码下载：
-![1](https://scimence.gitee.io/Tipper/pic/Tipper.png)
+![1](http://scimence.cn/soft/Tipper/Tipper.png)
 
 
